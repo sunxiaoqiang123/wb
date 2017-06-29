@@ -17,57 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/mytest',function(){
-	return '你好';
-});
- 
-Route::get('/form',function(){
-	return view('form');
-});
+//后台主页
+Route::get('/admin/index','Admin\IndexController@index');
 
-Route::post('/test',function(){
-	return 'hello';
-});
-
-Route::put('/myput',function(){
-	return 'put提交';
-});
-
-Route::delete('/mydelete',function(){
-	return 'delete提交';
-});
-
-// Route::get('/php',function(){
-// 	return '这是GETphp';
-// });
-
-// Route::post('/php',function(){
-// 	return '这是POST php';
-// });
-
-// Route::match(['get','post'],'/php',function(){
-// 	return '这是get加post';
-// });
-
-//路由参数//?就是可以不传.正则约束
-Route::get('/news/{id?}/{name?}',function($id,$name="aaa"){
-	echo $id."<br>".$name;
-	return; 
-})->where(['id' => '[0-9]+','name' => '[a-z]+']);
-
-
-//控制器
-Route::get('/mycontro','TestController@index');
-
-//
-Route::get('/home/mycontro','Home\TestController@index');
-
-// Route::get('/user/add','UserController@add');
-// Route::get('/user/insert','UserController@insert');
-
-//资源控制器
-Route::get('/form',function(){
-	return view('form');
-});
-Route::resource('/stu','StuController');
-Route::get('/stu/myfunc/a','StuController@myfunc');
+//用户管理
+Route::get('/admin/user/add','Admin\UserController@add');
+Route::post('/admin/user/insert','Admin\UserController@insert');
