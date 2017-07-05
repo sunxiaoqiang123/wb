@@ -2,17 +2,17 @@
 
 @section('content')
 
- <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        用户管理
+        分类管理
         <small>添加</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">用户管理</a></li>
-        <li class="active">添加用户</li>
+        <li><a href="#">分类管理</a></li>
+        <li class="active">添加分类</li>
       </ol>
     </section>
 
@@ -39,7 +39,7 @@
             
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" enctype="multipart/form-data" method="post" action="{{ url('/admin/user/insert') }} ">
+            <form role="form" enctype="multipart/form-data" method="post" action="{{ url('/admin/category') }} ">
               {{ csrf_field() }}
               <div class="box-body">
                   @if(session('info'))
@@ -48,28 +48,23 @@
                   </div>
                   @endif
                 <div class="form-group">
-                  <label for="exampleInputName">用户名</label>
-                  <input type="text" value="{{ old('name')}}" name="name" class="form-control" id="exampleInputName" placeholder="请输入用户名">
+                  <label for="exampleInputName">分类名</label>
+                  <input type="text" value="{{ old('name')}}" name="name" class="form-control" id="exampleInputName" placeholder="请输入分类名">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">邮箱</label>
-                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="请输入邮箱">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">密码</label>
-                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="请输入密码">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword2">确认密码</label>
-                  <input type="password" name="repass" class="form-control" id="exampleInputPassword2" placeholder="请确认密码">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">头像</label>
+                  <label for="exampleInputFile">logo</label>
                   <input type="file" name="img" id="exampleInputFile">
-
-                  <p class="help-block">请选择合适的头像</p>
+                  <p class="help-block">请选择合适的logo</p>
                 </div>
-      
+                <div class="form-group">
+                	<label for="exampleInputName">父分类</label>
+                	<select name="pid" class="form-control">
+                		<option value="0">根分类</option>
+                		@foreach($data as $key => $val)
+							<option value="{{ $val->id }}">{{ $val->name }}</option>
+                		@endforeach
+                	</select>
+                </div>
               </div>
               <!-- /.box-body -->
 
@@ -105,5 +100,3 @@
   </div>
 
 @endsection
-
-  

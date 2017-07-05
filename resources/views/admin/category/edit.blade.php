@@ -6,13 +6,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        用户管理
-        <small>添加</small>
+        类别管理
+        <small>编辑</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">用户管理</a></li>
-        <li class="active">添加用户</li>
+        <li><a href="#">类别管理</a></li>
+        <li class="active">编辑类别</li>
       </ol>
     </section>
 
@@ -24,7 +24,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">快速添加</h3>
+              <h3 class="box-title">快速编辑</h3>
             </div>
 
             @if (count($errors) > 0)
@@ -39,8 +39,10 @@
             
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" enctype="multipart/form-data" method="post" action="{{ url('/admin/user/insert') }} ">
+            <form role="form" enctype="multipart/form-data" method="post" action="{{ url('/admin/category') }}/{{ $data->id }} ">
+              {{ method_field("PUT") }}
               {{ csrf_field() }}
+              <input type="hidden" name="id" value="{{ $data->id }}">
               <div class="box-body">
                   @if(session('info'))
                   <div class="alert alert-danger">
@@ -48,33 +50,25 @@
                   </div>
                   @endif
                 <div class="form-group">
-                  <label for="exampleInputName">用户名</label>
-                  <input type="text" value="{{ old('name')}}" name="name" class="form-control" id="exampleInputName" placeholder="请输入用户名">
+                  <label for="exampleInputName">类名</label>
+                  <input type="text" value="{{ $data->name }}" name="name" class="form-control" id="exampleInputName" placeholder="请输入类别名">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">邮箱</label>
-                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="请输入邮箱">
+                  <label for="exampleInputFile">logo</label>
+                  <input type="file" name="blogo" id="exampleInputFile">
+                  <p class="help-block">请选择合适的logo</p>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">密码</label>
-                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="请输入密码">
+                  <label for="exampleInputEmail1">父类名</label>
+                  <input type="text" value="{{ empty($aa->name)?'微博内容':$aa->name }}" name="name1" class="form-control" id="exampleInputEmail1" readonly="readonly">
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword2">确认密码</label>
-                  <input type="password" name="repass" class="form-control" id="exampleInputPassword2" placeholder="请确认密码">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">头像</label>
-                  <input type="file" name="img" id="exampleInputFile">
 
-                  <p class="help-block">请选择合适的头像</p>
-                </div>
       
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">添加</button>
+                <button type="submit" class="btn btn-primary">编辑</button>
               </div>
             </form>
           </div>

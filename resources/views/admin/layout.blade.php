@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>adminlet 2 | Dashboard</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{{ config('app.name') }} - {{ $title }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 {{('')}}生成带连接的绝对路径-->
@@ -36,6 +37,22 @@
   <script src="{{ asset('/admin/adminlte/https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js') }}"></script>
   <script src="{{ asset('/admin/adminlte/https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}"></script>
   <![endif]-->
+  <style>
+      .example-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+      }
+
+      .example-modal .modal {
+        background: transparent !important;
+      }
+  </style>
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -46,25 +63,20 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>微博后台</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">toggle navigation</span>
       </a>
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
@@ -136,12 +148,7 @@
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
@@ -178,12 +185,7 @@
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
@@ -253,8 +255,8 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('admin/adminlte/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img src="/uploads/img/{{ session('master')->img }}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ session('master')->name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -287,15 +289,12 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{ url('/admin/logout') }}" class="btn btn-default btn-flat">退出</a>
                 </div>
               </li>
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -310,192 +309,102 @@
           <img src="{{ asset('admin/adminlte/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <p>BOOS</p>
+          <a href="#"><i class="fa fa-circle text-success"></i>weibo</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
+        <li class="header">   快捷菜单栏</li>
+        <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>用户管理</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <span class="label label-primary pull-right">2</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            <li class="active"><a href="{{ url('/admin/user/add') }}"><i class="fa fa-circle-o"></i>用户添加</a></li>
+            <li><a href="{{ url('/admin/user/index') }}"><i class="fa fa-circle-o"></i>用户查看</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
-            <span>Layout Options</span>
+            <span>分类管理</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+              <span class="label label-primary pull-right">2</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-            <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="pages/widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
-            </span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Charts</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+            <li><a href="{{ url('/admin/category/create') }}"><i class="fa fa-circle-o"></i>添加类别</a></li>
+            <li><a href="{{ url('/admin/category') }}"><i class="fa fa-circle-o"></i>查看分类</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>UI Elements</span>
+            <i class="fa fa-files-o"></i>
+            <span>微博管理</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <span class="label label-primary pull-right">3</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-            <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-            <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-            <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-            <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>微博列表</a></li>
+            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>评论表</a></li>
+            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>回复表</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Forms</span>
+            <i class="fa fa-files-o"></i>
+            <span>好友管理</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <span class="label label-primary pull-right">3</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-            <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-            <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>好友列表</a></li>
+            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>关注列表</a></li>
+            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>私信列表</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-table"></i> <span>Tables</span>
+            <i class="fa fa-files-o"></i>
+            <span>广告管理</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <span class="label label-primary pull-right">1</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="pages/mailbox/mailbox.html">
-            <i class="fa fa-envelope"></i> <span>Mailbox</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
-            </span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i> <span>Examples</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-            <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-            <li><a href="pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-            <li><a href="pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-            <li><a href="pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-            <li><a href="pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-            <li><a href="pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-            <li><a href="pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-            <li><a href="pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>广告列表</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-share"></i> <span>Multilevel</span>
+            <i class="fa fa-edit"></i> <span>友情链接管理</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <span class="label label-primary pull-right">1</span>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-            <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Level One
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                <li>
-                  <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+            <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i>友情链接列表</a></li>
           </ul>
         </li>
-        <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>网站配置管理</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">1</span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i>网站配置列表</a></li>
+          </ul>
+        </li>
+       
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -745,5 +654,40 @@
 <script src="{{ asset('/admin/adminlte/dist/js/pages/dashboard.js') }}"></script>
 <!-- adminlet for demo purposes -->
 <script src="{{ asset('/admin/adminlte/dist/js/demo.js') }}"></script>
+@yield('js')
+
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示框</h4>
+      </div>
+      <div class="modal-body">
+        你真的想好了吗?
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="delete" class="btn btn-primary">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  
+    $("#delete").click(function(){
+        
+        location.href="/admin/user/delete/"+id;
+    });
+
+</script>
+
 </body>
 </html>

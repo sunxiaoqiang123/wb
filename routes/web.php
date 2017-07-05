@@ -20,6 +20,30 @@ Route::get('/', function () {
 //后台主页
 Route::get('/admin/index','Admin\IndexController@index');
 
-//用户管理
-Route::get('/admin/user/add','Admin\UserController@add');
-Route::post('/admin/user/insert','Admin\UserController@insert');
+//路由群组
+Route::group(['middleware'=> 'adminlogin'],function(){
+	//用户管理
+	Route::get('/admin/user/add','Admin\UserController@add');
+	Route::post('/admin/user/insert','Admin\UserController@insert');
+	Route::get('/admin/user/index','Admin\UserController@index');
+	Route::get('/admin/user/edit/{id}','Admin\UserController@edit');
+	Route::get('/admin/user/delete/{id}','Admin\UserController@delete');
+	Route::post('/admin/user/update','Admin\UserController@update');
+	//ajax 操作
+	Route::post('/admin/user/ajaxrename','Admin\UserController@ajaxRename');
+
+	//分类管理 资源漏油
+	Route::resource('/admin/category',"Admin\CategoryController");
+
+	//微博管理
+	Route::resource('/admin/post', 'Admin\PostController');
+
+});
+
+//后台登录
+Route::get('/admin/login',"Admin\LoginController@login");
+Route::post('/admin/dologin',"Admin\LoginController@dologin");
+Route::get('/admin/logout',"Admin\LoginController@logout");
+
+//验证码
+Route::get('/kit/captcha/{tmp}', 'Admin\KitController@captcha');
